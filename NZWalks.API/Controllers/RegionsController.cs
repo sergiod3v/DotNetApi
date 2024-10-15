@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using NZWalks.API.Data;
-using NZWalks.API.Mappings;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
@@ -16,7 +11,6 @@ namespace NZWalks.API.Controllers {
         private readonly IRegionRepository regionRepository;
         private readonly IMapper mapper;
 
-        // Service & dbContext will be loaded will be loaded
         public RegionsController(IRegionRepository regionRepository, IMapper mapper) {
             this.regionRepository = regionRepository;
             this.mapper = mapper;
@@ -75,14 +69,15 @@ namespace NZWalks.API.Controllers {
             Region? updatedRegion = await regionRepository.UpdateAsync(id, body);
             if (updatedRegion == null) return NotFound();
 
-            RegionDto regionDto = mapper.Map<RegionDto>(updatedRegion);
-            return Ok(regionDto);
+            RegionDto region = mapper.Map<RegionDto>(updatedRegion);
+            return Ok(region);
         }
 
 
         [HttpDelete]
         [Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id) {
+
             // null if no region<id> was found 
             Region? deletedRegion = await regionRepository.DeleteAsync(id);
             if (deletedRegion == null) return NotFound();
