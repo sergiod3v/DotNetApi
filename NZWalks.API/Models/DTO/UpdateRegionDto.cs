@@ -1,0 +1,15 @@
+﻿namespace NZWalks.API.Models.DTO {
+    public class UpdateRegionDto {
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string? RegionImageUrl { get; set; }
+
+        public UpdateRegionDto(RegionDto region) {
+            Code = region.Code;
+            Name = region.Name;
+            RegionImageUrl = region.RegionImageUrl;
+        }
+        
+        public UpdateRegionDto() { }
+    }
+}
