@@ -145,5 +145,26 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "NZWalks.API.Controllers.WalksController",
+    "Method": "Update",
+    "RelativePath": "api/v1/Walks/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateWalkDto",
+        "Type": "NZWalks.API.Models.DTO.UpdateWalkDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

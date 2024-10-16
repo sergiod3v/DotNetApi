@@ -13,7 +13,10 @@ namespace NZWalks.API.Mappings {
             // Walk Profiles
             CreateMap<WalkDto, Walk>().ReverseMap();
             CreateMap<AddWalkDto, Walk>().ReverseMap();
-            CreateMap<UpdateRegionDto, Walk>().ReverseMap();
+            CreateMap<UpdateWalkDto, Walk>().ReverseMap();
+
+            // Difficulty Profiles
+            CreateMap<DifficultyDto, Difficulty>().ReverseMap();
         }
     }
 }

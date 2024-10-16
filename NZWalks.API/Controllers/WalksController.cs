@@ -37,18 +37,46 @@ namespace NZWalks.API.Controllers {
             if (walkModel == null) return NotFound();
 
             WalkDto walk = mapper.Map<WalkDto>(walkModel);
-            if (walk == null) return NotFound(); return Ok(walk);
+            if (walk == null) return StatusCode(500, "Error retreiving walk"); return Ok(walk);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddWalkDto addWalkDto) {
-            Walk body = mapper.Map<Walk>(addWalkDto);
+            if (addWalkDto == null) return BadRequest("Invalid payload");
 
-            Walk walkModel = await walkRepository.CreateAsync(body);
-            WalkDto walk = mapper.Map<WalkDto>(walkModel);
-            if (walk == null) return StatusCode(500, "Error creating walk");
+            // Map the DTO to the domain model
+            Walk walkModel = mapper.Map<Walk>(addWalkDto);
 
-            return Ok(walk);
+            // Create the walk in the repository
+            Walk? createdWalk = await walkRepository.CreateAsync(walkModel);
+
+            // Map the created walk back to the DTO for the response
+            WalkDto walkDto = mapper.Map<WalkDto>(createdWalk);
+
+            if (walkDto == null) return StatusCode(500, "Error creating walk");
+
+            return Ok(walkDto);
+        }
+
+
+        [HttpPut]
+        [Route(ID)]
+        public async Task<IActionResult> Update(
+            [FromRoute] Guid id,
+            [FromBody] UpdateWalkDto updateWalkDto
+        ) {
+            // Validate the incoming DTO
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            // Create the Region object to update
+            Walk body = mapper.Map<Walk>(updateWalkDto);
+
+            // Attempt to update the region in the repository
+            Walk? updatedWalk = await walkRepository.UpdateAsync(id, body);
+            if (updatedWalk == null) return NotFound();
+
+            WalkDto region = mapper.Map<WalkDto>(updatedWalk);
+            return Ok(region);
         }
 
         [HttpDelete]
