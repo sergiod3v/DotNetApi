@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using NZWalks.API.CustomActionFilters;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
@@ -33,16 +34,17 @@ namespace NZWalks.API.Controllers {
         [HttpGet]
         [Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id) {
+
             Walk? walkModel = await walkRepository.GetByIdAsync(id);
-            if (walkModel == null) return NotFound();
+            if (walkModel == null) return BadRequest(ModelState);
 
             WalkDto walk = mapper.Map<WalkDto>(walkModel);
             if (walk == null) return StatusCode(500, "Error retreiving walk"); return Ok(walk);
         }
 
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> Create([FromBody] AddWalkDto addWalkDto) {
-            if (addWalkDto == null) return BadRequest("Invalid payload");
 
             // Map the DTO to the domain model
             Walk walkModel = mapper.Map<Walk>(addWalkDto);
@@ -61,18 +63,15 @@ namespace NZWalks.API.Controllers {
 
         [HttpPut]
         [Route(ID)]
+        [ValidateModel]
         public async Task<IActionResult> Update(
             [FromRoute] Guid id,
             [FromBody] UpdateWalkDto updateWalkDto
         ) {
-            // Validate the incoming DTO
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            // Create the Region object to update
             Walk body = mapper.Map<Walk>(updateWalkDto);
 
-            // Attempt to update the region in the repository
             Walk? updatedWalk = await walkRepository.UpdateAsync(id, body);
+
             if (updatedWalk == null) return NotFound();
 
             WalkDto region = mapper.Map<WalkDto>(updatedWalk);
@@ -81,7 +80,9 @@ namespace NZWalks.API.Controllers {
 
         [HttpDelete]
         [Route(ID)]
+        [ValidateModel]
         public async Task<IActionResult> Delete([FromRoute] Guid id) {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
             Walk? deletedWalk = await walkRepository.DeleteAsync(id);
             if (deletedWalk == null) return NotFound();
 

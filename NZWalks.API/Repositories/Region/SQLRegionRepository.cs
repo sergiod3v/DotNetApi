@@ -4,7 +4,7 @@ using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 
 namespace NZWalks.API.Repositories {
-    public class SQLRegionRepository : IRegionRepository{
+    public class SQLRegionRepository : IRegionRepository {
         private readonly NZWalksDbContext dbContext;
 
         public SQLRegionRepository(NZWalksDbContext dbContext) {
@@ -36,7 +36,7 @@ namespace NZWalks.API.Repositories {
 
             await dbContext.SaveChangesAsync();
 
-            return currentRegion;
+            return await GetByIdAsync(currentRegion.Id);
         }
 
         public async Task<Region?> DeleteAsync(Guid id) {
@@ -45,7 +45,7 @@ namespace NZWalks.API.Repositories {
 
             dbContext.Regions.Remove(currentRegion);
             await dbContext.SaveChangesAsync();
-            
+
             return currentRegion;
         }
     }
