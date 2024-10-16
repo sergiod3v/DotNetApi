@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 
@@ -32,8 +33,9 @@ namespace NZWalks.API.Repositories {
             }
 
             // Pagination
+            var skipResults = (page - 1) * limit;
 
-            return await walks.ToListAsync(); //this is the async part, not the rest of the methods
+            return await walks.Skip(skipResults).Take(limit).ToListAsync(); //this is the async part, not the rest of the methods
         }
 
         public async Task<Walk?> GetByIdAsync(Guid id) {
