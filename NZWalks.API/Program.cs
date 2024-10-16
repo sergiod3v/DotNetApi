@@ -1,28 +1,29 @@
 using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Data;
+using NZWalks.API.Filters;
 using NZWalks.API.Mappings;
 using NZWalks.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllers(opt => {
+    opt.Filters.Add(new LoggingFilter("App"));
+    opt.Filters.Add(new ValidateModel());
+});
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); //injected service
 
 // Load DbContext to the program
-builder.Services.AddDbContext<NZWalksDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectionString")));
-/*
-    builder.Services.AddDbContext<NZWalksDbContext>(
-        options => options.UseSqlServer(
-            builder
-            .Configuration
-            .GetConnectionString("NZWalksConnectionString")
-        )
-    );
- */
+builder.Services.AddDbContext<NZWalksDbContext>(
+    options => options.UseSqlServer(
+        builder
+        .Configuration
+        .GetConnectionString("NZWalksConnectionString")
+    )
+);
 
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();

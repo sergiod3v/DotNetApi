@@ -7,8 +7,33 @@ namespace NZWalks.API.Repositories {
     public class SQLWalkRepository(NZWalksDbContext dbContext) : IWalkRepository {
         private readonly NZWalksDbContext dbContext = dbContext;
 
-        public async Task<List<Walk>> GetAllAsync() {
-            return await dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
+        public async Task<List<Walk>> GetAllAsync(
+            string? filterOn = null,
+            string? filterQuery = null,
+            string? sortBy = null,
+            bool ascending = true,
+            int page = 1,
+            int limit = 100
+        ) {
+            var walks = dbContext.Walks.Include("Difficulty").Include("Region").AsQueryable();
+
+            // Filtering
+            if (!string.IsNullOrWhiteSpace(filterOn) && !string.IsNullOrWhiteSpace(filterQuery)) {
+                if (filterOn.ToLower().Equals("name")) walks = walks.Where(x => x.Name.Contains(filterQuery));
+            }
+
+            // Sorting
+            if (!string.IsNullOrWhiteSpace(sortBy)) {
+                if (sortBy.ToLower().Equals("name")) {
+                    walks = ascending ? walks.OrderBy(x => x.Name) : walks.OrderByDescending(x => x.Name);
+                } else if (sortBy.ToLower().Equals("length")) {
+                    walks = ascending ? walks.OrderBy(x => x.LengthInKm) : walks.OrderByDescending(x => x.LengthInKm);
+                }
+            }
+
+            // Pagination
+
+            return await walks.ToListAsync(); //this is the async part, not the rest of the methods
         }
 
         public async Task<Walk?> GetByIdAsync(Guid id) {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using NZWalks.API.CustomActionFilters;
+using NZWalks.API.Filters;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
@@ -19,9 +19,24 @@ namespace NZWalks.API.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll() {
+        public async Task<IActionResult> GetAll(
+            [FromQuery] string? filterOn,
+            [FromQuery] string? filterQuery,
+            [FromQuery] string? sortBy,
+            [FromQuery] bool? ascending,
+            [FromQuery] int? page,
+            [FromQuery] int? limit
+        ) {
             // Fetch the list of regions from the database
-            List<Walk> walkModels = await walkRepository.GetAllAsync();
+            List<Walk> walkModels = await walkRepository.GetAllAsync(
+                filterOn,
+                filterQuery,
+                sortBy,
+                ascending ?? true, // if null pass true
+                page ?? 1,
+                limit ?? 100
+
+            );
             List<WalkDto> walks = mapper.Map<List<WalkDto>>(walkModels);
 
             // Return the list of DTOs, or NotFound if it's empty
