@@ -20,6 +20,7 @@ namespace NZWalks.API.Data {
 
             string readerId = "513d003e-ec3c-41df-8d6c-d13d4a40d6f5";
             string writerId = "1bdb8167-86ab-4fd0-a095-7a154c52bd6e";
+            string adminId = "25334fc5-e142-4a0c-8897-d5fc8edce75d";
 
             List<IdentityRole> roles = [
                 new () {
@@ -33,6 +34,12 @@ namespace NZWalks.API.Data {
                     ConcurrencyStamp = writerId,
                     Name = "Writer",
                     NormalizedName = "Writer".ToUpper()
+                },
+                new() {
+                    Id = adminId,
+                    ConcurrencyStamp = adminId,
+                    Name = "Admin",
+                    NormalizedName = "Admin".ToUpper()
                 }
             ];
 

@@ -9,7 +9,6 @@ using NZWalks.API.Repositories;
 namespace NZWalks.API.Controllers {
     [Route("api/v1/[controller]")]
     [ApiController]
-    [Authorize] // Add Auth verification
     public class RegionsController : ControllerBase {
         private readonly IRegionRepository regionRepository;
         private readonly IMapper mapper;
@@ -20,6 +19,7 @@ namespace NZWalks.API.Controllers {
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Reader")]
         public async Task<IActionResult> GetAll() {
             // Fetch the list of regions from the database
             List<Region> regionsModel = await regionRepository.GetAllAsync();
@@ -34,6 +34,7 @@ namespace NZWalks.API.Controllers {
 
         [HttpGet]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Admin,Reader")]
         [ValidateModel]
         public async Task<IActionResult> GetById([FromRoute] Guid id) {
             Region? regionModel = await regionRepository.GetByIdAsync(id);
@@ -45,6 +46,7 @@ namespace NZWalks.API.Controllers {
 
         [HttpPost]
         [ValidateModel]
+        [Authorize(Roles = "Admin,Writer")]
         public async Task<IActionResult> Create([FromBody] AddRegionDto addRegionDto) {
             // Validate the incoming DTO
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -64,6 +66,7 @@ namespace NZWalks.API.Controllers {
         [HttpPut]
         [ValidateModel]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Admin,Writer")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionDto updateRegionDto) {
             // Validate the incoming DTO
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -83,6 +86,7 @@ namespace NZWalks.API.Controllers {
         [HttpDelete]
         [ValidateModel]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Admin,Writer")]
         public async Task<IActionResult> Delete([FromRoute] Guid id) {
 
             // null if no region<id> was found 

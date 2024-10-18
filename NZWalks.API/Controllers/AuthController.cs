@@ -26,16 +26,15 @@ namespace NZWalks.API.Controllers {
                 registerDto.Roles != null &&
                 registerDto.Roles.Length != 0
             ) {
-                IdentityResult addRolesResult = await manager.AddToRolesAsync(
-                    user, registerDto.Roles
-                );
+                IdentityResult addRolesResult = await manager.AddToRolesAsync(user, registerDto.Roles);
 
-                if (addRolesResult.Succeeded) Ok(user);
+                if (addRolesResult.Succeeded) return Ok(user);  // Return Ok if both user creation and role assignment succeed
 
             }
 
             return BadRequest("Error registering the user");
         }
+
 
         [HttpPost]
         [Route("Login")]

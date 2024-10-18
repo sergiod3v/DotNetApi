@@ -8,6 +8,7 @@ using NZWalks.API.Data;
 using NZWalks.API.Filters;
 using NZWalks.API.Mappings;
 using NZWalks.API.Repositories;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,6 +82,41 @@ builder.Services.Configure<IdentityOptions>(
         options.Password.RequiredUniqueChars = 1;
     }
 );
+
+builder.Services.AddSwaggerGen(options => {
+    options.SwaggerDoc(
+        "v1",
+        new OpenApiInfo {
+            Title = "NZ Walks API Sergio",
+            Version = "v1"
+        }
+    );
+
+    options.AddSecurityDefinition(
+        JwtBearerDefaults.AuthenticationScheme,
+        new OpenApiSecurityScheme {
+            Name = "Authorization",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = JwtBearerDefaults.AuthenticationScheme
+        }
+    );
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+        {
+            new OpenApiSecurityScheme {
+                In = ParameterLocation.Header,
+                Name = JwtBearerDefaults.AuthenticationScheme,
+                Scheme = "Oauth2",
+                Reference = new OpenApiReference {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = JwtBearerDefaults.AuthenticationScheme
+                }
+            },
+            new List<string>()
+        }
+    });
+});
 // -----------------------------------------------------------------//
 
 var app = builder.Build();

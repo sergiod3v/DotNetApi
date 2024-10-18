@@ -9,7 +9,6 @@ using NZWalks.API.Repositories;
 namespace NZWalks.API.Controllers {
     [Route("api/v1/[controller]")]
     [ApiController]
-    [Authorize]
     public class WalksController : ControllerBase {
         private const string ID = "{id:Guid}";
         private readonly IMapper mapper;
@@ -21,6 +20,7 @@ namespace NZWalks.API.Controllers {
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Reader")]
         public async Task<IActionResult> GetAll(
             [FromQuery] string? filterOn,
             [FromQuery] string? filterQuery,
@@ -49,6 +49,7 @@ namespace NZWalks.API.Controllers {
 
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Reader")]
         [Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id) {
 
@@ -60,6 +61,7 @@ namespace NZWalks.API.Controllers {
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Writer")]
         [ValidateModel]
         public async Task<IActionResult> Create([FromBody] AddWalkDto addWalkDto) {
 
@@ -79,6 +81,7 @@ namespace NZWalks.API.Controllers {
 
 
         [HttpPut]
+        [Authorize(Roles = "Admin,Writer")]
         [Route(ID)]
         [ValidateModel]
         public async Task<IActionResult> Update(
@@ -96,6 +99,7 @@ namespace NZWalks.API.Controllers {
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin,Writer")]
         [Route(ID)]
         [ValidateModel]
         public async Task<IActionResult> Delete([FromRoute] Guid id) {
