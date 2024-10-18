@@ -9,6 +9,8 @@ using NZWalks.API.Filters;
 using NZWalks.API.Mappings;
 using NZWalks.API.Repositories;
 using Microsoft.OpenApi.Models;
+using NZWalks.API.Repositories.Images;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +47,7 @@ builder.Services.AddDbContext<NZWalksAuthDbContext>(
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IImageRepository, LocalImageRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
@@ -117,6 +120,8 @@ builder.Services.AddSwaggerGen(options => {
         }
     });
 });
+
+builder.Services.AddHttpContextAccessor();
 // -----------------------------------------------------------------//
 
 var app = builder.Build();
@@ -132,6 +137,12 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+// added
+app.UseStaticFiles(new StaticFileOptions {
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "Images")
+    )
+});
 
 app.MapControllers();
 
