@@ -142,3 +142,10 @@ C:\Users\Camac\OneDrive\Escritorio\Learning\dotNet\ASP\NZWalks\NZWalks.API\bin\D
 C:\Users\Camac\OneDrive\Escritorio\Learning\dotNet\ASP\NZWalks\NZWalks.API\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\Camac\OneDrive\Escritorio\Learning\dotNet\ASP\NZWalks\NZWalks.API\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\Camac\OneDrive\Escritorio\Learning\dotNet\ASP\NZWalks\NZWalks.API\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\Camac\OneDrive\Escritorio\Learning\dotNet\ASP\NZWalks\NZWalks.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Camac\OneDrive\Escritorio\Learning\dotNet\ASP\NZWalks\NZWalks.API\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Camac\OneDrive\Escritorio\Learning\dotNet\ASP\NZWalks\NZWalks.API\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Camac\OneDrive\Escritorio\Learning\dotNet\ASP\NZWalks\NZWalks.API\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Camac\OneDrive\Escritorio\Learning\dotNet\ASP\NZWalks\NZWalks.API\bin\Debug\net8.0\Microsoft.Bcl.TimeProvider.dll
+C:\Users\Camac\OneDrive\Escritorio\Learning\dotNet\ASP\NZWalks\NZWalks.API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Camac\OneDrive\Escritorio\Learning\dotNet\ASP\NZWalks\NZWalks.API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll

@@ -6,9 +6,14 @@ using NZWalks.API.Models.DTO;
 namespace NZWalks.API.Repositories {
     public class SQLRegionRepository : IRegionRepository {
         private readonly NZWalksDbContext dbContext;
+        private readonly NZWalksAuthDbContext authDbContext;
 
-        public SQLRegionRepository(NZWalksDbContext dbContext) {
+        public SQLRegionRepository(
+            NZWalksDbContext dbContext,
+            NZWalksAuthDbContext authDbContext
+        ) {
             this.dbContext = dbContext;
+            this.authDbContext = authDbContext;
         }
 
         public async Task<List<Region>> GetAllAsync() {

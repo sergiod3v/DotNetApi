@@ -20,15 +20,23 @@ namespace NZWalks.API.Repositories {
 
             // Filtering
             if (!string.IsNullOrWhiteSpace(filterOn) && !string.IsNullOrWhiteSpace(filterQuery)) {
-                if (filterOn.ToLower().Equals("name")) walks = walks.Where(x => x.Name.Contains(filterQuery));
+                if (filterOn.ToLower().Equals("name")) {
+                    walks = walks.Where(
+                        x => x.Name.Contains(filterQuery)
+                    );
+                }
             }
 
             // Sorting
             if (!string.IsNullOrWhiteSpace(sortBy)) {
                 if (sortBy.ToLower().Equals("name")) {
-                    walks = ascending ? walks.OrderBy(x => x.Name) : walks.OrderByDescending(x => x.Name);
+                    walks = ascending ?
+                    walks.OrderBy(x => x.Name) :
+                    walks.OrderByDescending(x => x.Name);
                 } else if (sortBy.ToLower().Equals("length")) {
-                    walks = ascending ? walks.OrderBy(x => x.LengthInKm) : walks.OrderByDescending(x => x.LengthInKm);
+                    walks = ascending ?
+                    walks.OrderBy(x => x.LengthInKm) :
+                    walks.OrderByDescending(x => x.LengthInKm);
                 }
             }
 

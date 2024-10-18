@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NZWalks.API.Filters;
 using NZWalks.API.Models.Domain;
@@ -8,6 +9,7 @@ using NZWalks.API.Repositories;
 namespace NZWalks.API.Controllers {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class WalksController : ControllerBase {
         private const string ID = "{id:Guid}";
         private readonly IMapper mapper;

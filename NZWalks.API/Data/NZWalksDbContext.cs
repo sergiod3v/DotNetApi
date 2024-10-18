@@ -4,7 +4,7 @@ using NZWalks.API.Models.Domain;
 namespace NZWalks.API.Data {
     public class NZWalksDbContext : DbContext {
         // DbContextOptions -> params like connection_string, provider and more
-        public NZWalksDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions) {
+        public NZWalksDbContext(DbContextOptions<NZWalksDbContext> dbContextOptions) : base(dbContextOptions) {
 
         }
 
@@ -18,9 +18,18 @@ namespace NZWalks.API.Data {
 
             // Create data to seed 
             List<Difficulty> difficulties = [
-                new Difficulty() { Id = Guid.Parse("9e336c61-faed-4281-82d9-639537cd1d4a"), Name = "Easy" },
-                new Difficulty() { Id = Guid.Parse("66f0a310-3f96-4298-a126-adf7fa491c79"), Name = "Medium" },
-                new Difficulty() { Id = Guid.Parse("539f569a-1044-44e0-94b1-4c68834f6d1d"), Name = "Hard" },
+                new Difficulty() {
+                    Id = Guid.Parse("9e336c61-faed-4281-82d9-639537cd1d4a"),
+                    Name = "Easy"
+                },
+                new Difficulty() {
+                    Id = Guid.Parse("66f0a310-3f96-4298-a126-adf7fa491c79"),
+                    Name = "Medium"
+                },
+                new Difficulty() {
+                     Id = Guid.Parse("539f569a-1044-44e0-94b1-4c68834f6d1d"),
+                    Name = "Hard"
+                }
             ];
 
             // Seed Difficulty table
